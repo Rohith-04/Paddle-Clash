@@ -14,7 +14,12 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libglfw3-dev libgl1-mesa-dev libx11-dev libpulse-dev raylib-dev
+        sudo apt-get install -y build-essential libglfw3-dev libgl1-mesa-dev libx11-dev libpulse-dev
+        sudo apt-get install -y cmake git
+        git clone https://github.com/raysan5/raylib.git
+        cd raylib/src
+        make PLATFORM=PLATFORM_DESKTOP
+        sudo make install
     - name: Build
       run: make
     - name: Package
@@ -32,7 +37,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: choco install make mingw raylib
+      run: choco install make mingw
+    - name: Install raylib
+      run: |
+        git clone https://github.com/raysan5/raylib.git
+        cd raylib/src
+        mingw32-make PLATFORM=PLATFORM_DESKTOP
+        xcopy /s /e /v /h raylib\src\*.h "C:\msys64\mingw32\include\"
+        xcopy /s /e /v /h raylib\src\*.a "C:\msys64\mingw32\lib\"
     - name: Build
       run: mingw32-make
     - name: Package
@@ -50,8 +62,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
+      run: brew install make glfw
+    - name: Install raylib
       run: |
-        brew install make raylib
+        git clone https://github.com/raysan5/raylib.git
+        cd raylib/src
+        make PLATFORM=PLATFORM_DESKTOP
+        sudo make install
     - name: Build
       run: make
     - name: Package
