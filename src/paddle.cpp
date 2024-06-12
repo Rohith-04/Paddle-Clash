@@ -1,6 +1,6 @@
-#include "paddle.h"
-#include "raylib.h"
-#include "shared_file.h"
+#include "../lib/paddle.h"
+#include "../lib/raylib.h"
+#include "../lib/shared_file.h"
 
 Paddle l_p = {10, 240, 10, 120};
 Paddle r_p = {780, 240, 10, 120};

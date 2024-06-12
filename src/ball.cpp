@@ -1,6 +1,6 @@
-#include "ball.h"
-#include "raylib.h"
-#include "shared_file.h"
+#include "../lib/ball.h"
+#include "../lib/raylib.h"
+#include "../lib/shared_file.h"
 
 Ball ball = {(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2, 8, 300,
              300};

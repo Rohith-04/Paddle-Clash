@@ -1,8 +1,8 @@
-#include "ball.h"
-#include "paddle.h"
-#include "player.h"
-#include "raylib.h"
-#include "shared_file.h"
+#include "lib/ball.h"
+#include "lib/paddle.h"
+#include "lib/player.h"
+#include "lib/raylib.h"
+#include "lib/shared_file.h"
 #include <cmath>
 #define MAX_SCORE 5
 
@@ -16,8 +16,8 @@ int main(void) {
   InitWindow(getWidth, getHeight, "Pong Game");
 
   InitAudioDevice();
-  Sound shot = LoadSound("pong.wav");
-  Sound gameover = LoadSound("gameover.wav");
+  Sound shot = LoadSound("assets/pong.wav");
+  Sound gameover = LoadSound("assets/gameover.wav");
   srand(0);
   SetTargetFPS(120);
   while (!WindowShouldClose()) {

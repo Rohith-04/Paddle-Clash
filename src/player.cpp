@@ -1,9 +1,9 @@
 // Game status and handles restart and different checkpoints in Game
-#include "player.h"
-#include "ball.h"
-#include "paddle.h"
-#include "raylib.h"
-#include "shared_file.h"
+#include "../lib/player.h"
+#include "../lib/ball.h"
+#include "../lib/paddle.h"
+#include "../lib/raylib.h"
+#include "../lib/shared_file.h"
 #include <cstdlib>
 #include <string>
 #define MAX_SCORE 5
