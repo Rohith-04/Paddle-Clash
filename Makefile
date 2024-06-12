@@ -1,6 +1,6 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -lraylib -lm -lGL -lglfw -lpthread -lrt -lX11 -ldl
+CXXFLAGS = -std=c++11 -lraylib -lm -lGL -lglfw -lpthread -lrt -lX11 -ldl
 
 # Source files
 SRCS = main.cpp src/paddle.cpp src/ball.cpp src/player.cpp
