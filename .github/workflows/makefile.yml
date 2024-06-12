@@ -1,0 +1,95 @@
+name: build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: sudo apt-get install -y build-essential libglfw3-dev libgl1-mesa-dev libx11-dev libpulse-dev
+    - name: Build
+      run: make
+    - name: Package
+      run: |
+        mkdir -p release
+        cp game release/
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: game-linux
+        path: release/game
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: choco install make mingw
+    - name: Build
+      run: mingw32-make
+    - name: Package
+      run: |
+        mkdir -p release
+        cp game.exe release/
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: game-windows
+        path: release/game.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: brew install make glfw3
+    - name: Build
+      run: make
+    - name: Package
+      run: |
+        mkdir -p release
+        cp game release/
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: game-macos
+        path: release/game
+
+  release:
+    needs: [build-linux, build-windows, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: game-linux
+        path: release/linux
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: game-windows
+        path: release/windows
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: game-macos
+        path: release/macos
+    - name: Create release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+        files: |
+          release/linux/game
+          release/windows/game.exe
+          release/macos/game
