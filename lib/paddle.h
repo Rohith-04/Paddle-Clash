@@ -9,10 +9,10 @@ typedef struct {
   float height;
 } Paddle;
 
-void DrawRightpaddle(void);
-void DrawLeftpaddle(void);
-void RightControl(void);
-void LeftControl(void);
-bool CollisionRight(void);
-bool CollisionLeft(void);
+void drawRightPaddle(void);
+void drawLeftPaddle(void);
+void rightPaddleControl(void);
+void leftPaddleControl(void);
+bool leftPaddleCollision(void);
+bool rightPaddleCollision(void);
 #endif

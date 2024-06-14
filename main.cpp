@@ -13,7 +13,7 @@ Color bg = {68, 4, 128, 0};
 float randomFloat(void) { return ((float)GetRandomValue(7, 14) / 10); }
 
 int main(void) {
-  InitWindow(getWidth, getHeight, "Pong Game");
+  InitWindow(getWidth, getHeight, "Paddle-Clash");
 
   InitAudioDevice();
   Sound shot = LoadSound("assets/pong.wav");
@@ -23,8 +23,8 @@ int main(void) {
   while (!WindowShouldClose()) {
     BeginDrawing();
     ClearBackground(bg);
-    bool collisionLeft = CollisionLeft();
-    bool collisionRight = CollisionRight();
+    bool collisionLeft = leftPaddleCollision();
+    bool collisionRight = rightPaddleCollision();
     if ((collisionRight || collisionLeft)) {
       PlaySound(shot);
     }
@@ -33,17 +33,17 @@ int main(void) {
       roundOver = false;
     }
 
-    LeftControl();
-    RightControl();
-    UpdateBall();
-    StopBall();
+    leftPaddleControl();
+    rightPaddleControl();
+    updateBall();
+    restrictBall();
     updateScore();
     checkWinner();
     drawScore();
     DrawFPS(10, 10);
-    DrawBall();
-    DrawLeftpaddle();
-    DrawRightpaddle();
+    drawBall();
+    drawLeftPaddle();
+    drawRightPaddle();
     DrawLine(getWidth / 2, 0, getWidth / 2, getHeight, RAYWHITE);
     EndDrawing();
   }

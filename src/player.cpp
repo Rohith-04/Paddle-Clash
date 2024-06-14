@@ -15,26 +15,28 @@ bool restart = false;
 int left_score = 0;
 int right_score = 0;
 
+// draws score at the top of each player
 void drawScore(void) {
 
-  std::string left = std::to_string(left_score);
+  std::string left = std::to_string(left_score); // int is converted to string
   std::string right = std::to_string(right_score);
 
-  const char *l_score = left.c_str();
+  const char *l_score = left.c_str(); // converting a Cpp style string to a
+                                      // C-style string for raylib
   const char *r_score = right.c_str();
   DrawText(l_score, getWidth / 4, 10, 20, RAYWHITE);
   DrawText(r_score, 3 * getWidth / 4, 10, 20, RAYWHITE);
 }
 
+// Gives either 1 or -1 as output
 int ownNumGen(void) {
   if (GetRandomValue(1, 10) % 2 == 0)
     return 1;
-  if (GetRandomValue(1, 10) % 2 != 0)
-    return -1;
 
-  return 1;
+  return -1;
 }
 
+// restarts a new round
 void newRound(void) {
   isPauseLeft = false;
   isPauseRight = false;
@@ -42,7 +44,8 @@ void newRound(void) {
   restart = false;
   ball.x = (float)getWidth / 2;
   ball.y = GetRandomValue(1, getHeight);
-  ball.vel_x = 300 * ownNumGen();
+  ball.vel_x = 300 * ownNumGen(); // initialising direction of a ball at the
+                                  // start of every new round randomly
   ball.vel_y = 300 * ownNumGen();
   l_p.y = 240;
   r_p.y = 240;
@@ -61,6 +64,8 @@ void updateScore(void) {
     roundOver = true;
     left_score++;
   }
+
+  // asks user for a input to start a new round
   if ((isPauseLeft) && (left_score < MAX_SCORE) && (right_score < MAX_SCORE)) {
     DrawText("Press C to continue", getWidth / 2 - 160, getHeight / 2 - 15, 30,
              GREEN);
@@ -87,7 +92,7 @@ void checkWinner(void) {
              GREEN);
 
     if (IsKeyPressed(KEY_R))
-      Restart();
+      startNewGame();
     if (IsKeyPressed(KEY_Q))
       CloseWindow();
   }
@@ -99,13 +104,13 @@ void checkWinner(void) {
     DrawText("Press Q to Quit", getWidth / 2 - 100, getHeight / 2 + 30, 30,
              GREEN);
     if (IsKeyPressed(KEY_R))
-      Restart();
+      startNewGame();
     if (IsKeyPressed(KEY_Q))
       CloseWindow();
   }
 }
 
-void Restart() {
+void startNewGame() {
   isPauseLeft = false;
   isPauseRight = false;
   roundOver = false;

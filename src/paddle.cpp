@@ -7,15 +7,15 @@ Paddle r_p = {780, 240, 10, 120};
 
 Color paddle_color = {234, 242, 5, 0};
 
-void DrawRightpaddle() {
+void drawRightPaddle() {
   DrawRectangle(r_p.x, r_p.y, r_p.width, r_p.height, YELLOW);
 }
 
-void DrawLeftpaddle() {
+void drawLeftPaddle() {
   DrawRectangle(l_p.x, l_p.y, l_p.width, l_p.height, YELLOW);
 }
 
-void RightControl() {
+void rightPaddleControl() {
   if (IsKeyDown(KEY_UP)) {
     r_p.y -= 900 * GetFrameTime();
   }
@@ -24,8 +24,8 @@ void RightControl() {
   }
 }
 
-void LeftControl() {
-  if (IsKeyDown(KEY_W)) { // Controls for both left paddle and roght paddle
+void leftPaddleControl() {
+  if (IsKeyDown(KEY_W)) {
     l_p.y -= 900 * GetFrameTime();
   }
   if (IsKeyDown(KEY_S)) {
@@ -33,7 +33,7 @@ void LeftControl() {
   }
 }
 
-bool CollisionRight() {
+bool rightPaddleCollision() {
   if (CheckCollisionCircleRec(
           (Vector2){ball.x, ball.y}, ball.size,
           (Rectangle){r_p.x, r_p.y, r_p.width, r_p.height})) {
@@ -46,27 +46,31 @@ bool CollisionRight() {
       if (ball.vel_y < 0)
         ball.vel_y *= -1 * randomFloat();
     }
-    ball.x = ball.x - ball.size; // Collision checker for left right paddle
+    ball.x = ball.x - ball.size;
     ball.y = ball.y - ball.size;
     return true;
   }
   return false;
 }
 
-bool CollisionLeft() {
+bool leftPaddleCollision() {
   if (CheckCollisionCircleRec(
           (Vector2){ball.x, ball.y}, ball.size,
           (Rectangle){l_p.x, l_p.y, l_p.width, l_p.height})) {
     ball.vel_x *= -1;
-    if (IsKeyDown(KEY_W)) {
+    if (IsKeyDown(KEY_W)) { // Pushes ball up if the paddle is going up
       if (ball.vel_y > 0)
         ball.vel_y *= -1 * randomFloat();
-    }
-    if (IsKeyDown(KEY_S)) {
+    } else if (IsKeyDown(
+                   KEY_S)) { // Pushes ball down if the paddle is going down
       if (ball.vel_y < 0)
         ball.vel_y *= -1 * randomFloat();
+    } else {
+      ball.vel_y *= randomFloat(); // No change in directon in y
     }
-    ball.x = ball.x + ball.size; // Collision checker for left right paddle
+
+    // Updating positions to make collisions look good
+    ball.x = ball.x + ball.size;
     ball.y = ball.y + ball.size;
     return true;
   }

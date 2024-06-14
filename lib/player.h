@@ -2,10 +2,10 @@
 #define PLAYER_H
 
 void drawScore(void);
-void Restart(void);
+void startNewGame(void);
 void newRound(void);
 void updateScore(void);
 void checkWinner(void);
-int ownNumGen(void);
+int ownNumberGenerator(void);
 
 #endif

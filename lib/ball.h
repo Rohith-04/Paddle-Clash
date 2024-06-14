@@ -13,8 +13,8 @@ struct Ball {
   float vel_y;
 };
 
-void DrawBall(void);
-void UpdateBall(void);
-void StopBall(void);
+void drawBall(void);
+void updateBall(void);
+void restrictBall(void);
 
 #endif
